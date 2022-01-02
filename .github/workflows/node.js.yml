@@ -28,14 +28,6 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --prod --if-present
-    # - run: npm run lint
-    # - run: npm test --prod
-    # - name: Conventional Changelog Action
-    #     id: changelog
-    #     uses: TriPSs/conventional-changelog-action@v3
-    #     with:
-    #       github-token: ${{ secrets.TOKEN_GITHUB_ACTION }}
-    #       output-file: "false"
 
     - name: Create Release
       uses: actions/create-release@v1
