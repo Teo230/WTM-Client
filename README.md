@@ -1,3 +1,5 @@
+[![Node.js CI](https://github.com/Teo230/WTM-Client/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/Teo230/WTM-Client/actions/workflows/node.js.yml)
+
 # WTMClient
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.12.
