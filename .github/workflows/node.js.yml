@@ -28,6 +28,6 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build --prod --if-present
-    - run: npm run lint
+    # - run: npm run lint
     # - run: npm test --prod
     - run: npm run deploy
