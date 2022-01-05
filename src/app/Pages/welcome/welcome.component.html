@@ -1,10 +1,14 @@
 <div class="center">
-    <h1>Welcome</h1>
+    <img src="{{meme.url}}" height="300px"/>
+    <h1>What The Meme</h1>
     <mat-form-field appearance="fill">
         <mat-label>Username</mat-label>
-        <input matInput>
+        <input matInput required value="{{meme.author}}">
     </mat-form-field>
     <br/>
-    <button mat-raised-button color="accent">Create new room</button>
-    <button mat-raised-button color="accent">Join in a existing room</button>
+    <button mat-raised-button color="accent" (click)="createRoom()">Create new room</button>
+    <!-- <button mat-raised-button color="accent">Join in a existing room</button> -->
+
+    <br/>
+    <h3>*Work in progress</h3>
 </div>
