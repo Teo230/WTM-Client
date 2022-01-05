@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 const imageService = "ImageManager/";
 const roomService = "Room/";
 
-const baseUrl = "http://157.230.24.19:8080/";
+const baseUrl = "https://157.230.24.19/";
 const apiKey = "b851e72a-cad9-4eda-84a9-0d44eae13b80";
 const httpOptions: any = {
   headers: new HttpHeaders({'apiKey' : apiKey,
@@ -22,7 +22,6 @@ export class WtmApiService {
 
   public GetRandomMemes(count: number){
     return new Promise((resolve) => {
-
       this.httpClient.get(baseUrl + imageService + "GetRandomMemes/" + count, httpOptions)
           .subscribe((res:any) =>{
             resolve(res);
@@ -34,7 +33,6 @@ export class WtmApiService {
 
   public GenerateRoom(){
     return new Promise((resolve) => {
-      
       let localOptions = httpOptions;
       localOptions.responseType = "text";
 
