@@ -1,7 +1,8 @@
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
+import { SignalRService } from './services/signal-r.service';
 
-const darkClassName = 'darkMode';
+const themeClassName = 'lightMode';
 
 @Component({
   selector: 'app-root',
@@ -10,22 +11,24 @@ const darkClassName = 'darkMode';
 })
 
 export class AppComponent implements OnInit {
+
   constructor(private overlay: OverlayContainer) {
 
   }
   
   ngOnInit(): void {
+
   }
 
   themeModeSwitch(event: any){
     if (event.checked) {
-      console.log('darkmode ON');
-      this.overlay.getContainerElement().classList.add(darkClassName);
-      document.body.classList.add(darkClassName);
+      console.log('lightMode ON');
+      this.overlay.getContainerElement().classList.add(themeClassName);
+      document.body.classList.add(themeClassName);
     } else {
-      console.log('darkmode OFF');
-      this.overlay.getContainerElement().classList.remove(darkClassName);
-      document.body.classList.remove(darkClassName);
+      console.log('lightMode OFF');
+      this.overlay.getContainerElement().classList.remove(themeClassName);
+      document.body.classList.remove(themeClassName);
     }
   }
 }

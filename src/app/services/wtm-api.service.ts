@@ -5,10 +5,12 @@ const imageService = "ImageManager/";
 const roomService = "Room/";
 
 const baseUrl = "https://157.230.24.19/";
+//const baseUrl = "https://localhost:5004/";
 const apiKey = "b851e72a-cad9-4eda-84a9-0d44eae13b80";
 const httpOptions: any = {
   headers: new HttpHeaders({'apiKey' : apiKey,
-                            'Access-Control-Allow-Origin' : '*'}),
+                            'Access-Control-Allow-Origin' : '*',
+                            'Content-Type': 'application/json'}),
 }
 
 @Injectable({
@@ -45,10 +47,9 @@ export class WtmApiService {
     });
   }
 
-  public JoinRoom(roomCode: string){
+  public JoinRoom(roomCode: string, username: string){
     return new Promise((resolve) => {
-      let content = JSON.stringify({roomCode: roomCode});
-      this.httpClient.post(baseUrl + roomService + "JoinRoom", content, httpOptions)
+      this.httpClient.post(baseUrl + roomService + "JoinRoom?roomCode=" + roomCode + "&username=" + username, null, httpOptions)
           .subscribe((res:any) =>{
             resolve(res);
           },

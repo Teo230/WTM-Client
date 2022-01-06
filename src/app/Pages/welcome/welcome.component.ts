@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { WtmApiService } from 'src/app/services/wtm-api.service';
 
 @Component({
@@ -11,11 +12,13 @@ export class WelcomeComponent implements OnInit {
 
   meme: any = {};
 
-  constructor(private wtmService: WtmApiService) {
-    this.getRandomMeme();
+  constructor(private wtmService: WtmApiService,
+              private router: Router) {
+    
   }
 
   ngOnInit(): void {
+    this.getRandomMeme();
   }
 
   getRandomMeme(){
@@ -28,9 +31,8 @@ export class WelcomeComponent implements OnInit {
   createRoom(){
     this.wtmService.GenerateRoom().then((roomCode:any) => {
       console.log(roomCode);
-      this.wtmService.JoinRoom(roomCode).then((room:any) => {
-        console.log(room);
-      });
+      this.router.navigate(['room/' + roomCode]);
+
     });
   }
 }

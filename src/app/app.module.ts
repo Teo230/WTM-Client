@@ -39,14 +39,20 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { WelcomeComponent } from './Pages/welcome/welcome.component';
 import { WtmApiService } from './services/wtm-api.service';
 import { HttpClientModule } from '@angular/common/http';
+import { RoomComponent } from './Pages/room/room.component';
+import { JoinRoomDialogComponent } from './Components/join-room-dialog/join-room-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    RoomComponent,
+    JoinRoomDialogComponent
   ],
   imports: [
     BrowserModule,
+    ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
 
