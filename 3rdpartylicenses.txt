@@ -66,6 +66,9 @@ MIT
 @angular/router
 MIT
 
+@aspnet/signalr
+Apache-2.0
+
 rxjs
 Apache-2.0
                                Apache License
