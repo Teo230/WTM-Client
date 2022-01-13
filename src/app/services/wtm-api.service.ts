@@ -11,6 +11,7 @@ const httpOptions: any = {
   headers: new HttpHeaders({'apiKey' : apiKey,
                             'Access-Control-Allow-Origin' : '*',
                             'Content-Type': 'application/json'}),
+  responseType: "json"
 }
 
 @Injectable({
@@ -49,9 +50,13 @@ export class WtmApiService {
 
   public JoinRoom(roomCode: string, username: string){
     return new Promise((resolve) => {
-      this.httpClient.post(baseUrl + roomService + "JoinRoom?roomCode=" + roomCode + "&username=" + username, null, httpOptions)
+      this.httpClient.post(baseUrl + roomService + `JoinRoom?roomCode=${roomCode}&username=${username}`, null, httpOptions)
           .subscribe((res:any) =>{
-            resolve(res);
+            try{
+              resolve(JSON.parse(res));
+            }catch{
+              resolve(res);
+            }
           },
           //error => console.log(error)
       );

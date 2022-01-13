@@ -1,5 +1,45 @@
-Id: {{room?.id}}
-<br/>
-Code: {{room?.roomCode}}
-<br/>
-Username: {{username}}
+<div style="display: flex; height: calc(100% - 120px);">
+    <div style="width: 15%; margin: 10px; ">
+        <mat-card class="player-list">
+            <mat-card-title>
+                Players - {{players.length}}/{{room?.maxPlayers}}
+            </mat-card-title>
+            <mat-card-content>
+                <mat-selection-list #playerList>
+                    <mat-list-item *ngFor="let player of players">
+                        <span style="width: 100px;" class="cut-text">{{player.username}}</span>
+                        <!-- <button mat-button color="accent" (click)="voteKick(player)" *ngIf="!(player.itsMe)">Vote Kick</button> -->
+                    </mat-list-item>
+                </mat-selection-list>        
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div style="width: 70%; margin-top: 10px;">
+        <mat-card>
+            <mat-card-title>Room Info</mat-card-title>
+            Room: {{room?.roomCode}} <button mat-button [cdkCopyToClipboard]="copyUrl()"><mat-icon class="mr-8">content_copy</mat-icon></button>
+        </mat-card>
+    </div>
+    <div style="width: 15%; margin: 10px; ">
+        <mat-card class="scoreboard">
+            <mat-card-title>Scoreboard</mat-card-title>
+            <mat-card-content>
+                <mat-selection-list #scoreboard>
+                    <mat-list-item *ngFor="let player of players; let i = index">
+                        {{i + 1}}°
+
+                        <div style="padding: 15px;">
+                            <mat-icon *ngIf="i === 0" class="mr-8" color="accent">emoji_events</mat-icon>
+                            <mat-icon *ngIf="i === 1" class="mr-8" style="color: gray">emoji_events</mat-icon>
+                            <mat-icon *ngIf="i === 2" class="mr-8" style="color:saddlebrown">emoji_events</mat-icon>    
+                            <mat-icon *ngIf="i > 2" class="mr-8" style="color:white">horizontal_rule</mat-icon>  
+                        </div>
+                        
+                        <span style="width: 100px;" class="cut-text"> {{player.username}} - {{player.points}}</span>
+                        <!-- <button mat-button color="accent" (click)="voteKick(player)" *ngIf="!(player.itsMe)">Vote Kick</button> -->
+                    </mat-list-item>
+                </mat-selection-list> 
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

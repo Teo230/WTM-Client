@@ -9,6 +9,10 @@ const routes: Routes = [
     component: WelcomeComponent
   },
   {
+    path:'room',
+    redirectTo: ''
+  },
+  {
     path:'room/:roomCode',
     component: RoomComponent
   }

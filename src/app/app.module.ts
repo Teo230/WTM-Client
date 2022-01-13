@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+//Material
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -36,12 +37,15 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+
 import { WelcomeComponent } from './Pages/welcome/welcome.component';
 import { WtmApiService } from './services/wtm-api.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RoomComponent } from './Pages/room/room.component';
 import { JoinRoomDialogComponent } from './Components/join-room-dialog/join-room-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -51,6 +55,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     JoinRoomDialogComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     ReactiveFormsModule,
     AppRoutingModule,
@@ -58,6 +63,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
     MatCheckboxModule,
     MatCheckboxModule,
+    ClipboardModule,
     MatButtonModule,
     MatInputModule,
     MatAutocompleteModule,
