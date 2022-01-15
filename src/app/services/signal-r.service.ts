@@ -7,9 +7,10 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class SignalRService implements OnDestroy {
-
   roomCode: any;
-  player = new BehaviorSubject(null);
+
+  joinedPlayer = new BehaviorSubject(null);
+  leftPlayerId = new BehaviorSubject(null);
 
   hubConnection: HubConnection = new HubConnectionBuilder()
                                     .withUrl('https://157.230.24.19/servicehub',{transport: HttpTransportType.LongPolling})
@@ -20,43 +21,62 @@ export class SignalRService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.hubConnection.invoke("LeaveRoom",this.roomCode).then(() =>{
-      this.hubConnection.stop().then(() =>{
-        console.log('Connection stoped');
-      });  
-    })
+    this.closeConnection();
   }
   
-  public startConnection = (roomCode: string, username: string) => {
+  public startConnection = (roomCode: string, username: string, playerId: number) => {
+    
     this.hubConnection
       .start()
       .then(() => {
         console.log('Connection started')
-        this.hubConnection.invoke("JoinRoom",roomCode);
+        this.hubConnection.invoke("JoinRoom",roomCode, playerId);
         this.roomCode = roomCode;
         this.StartEvents();
       })
       .catch((err: any) => console.log('Error while starting connection: ' + err))
   }
 
+  public closeConnection(){
+    return new Promise((res)=>{
+      this.EndEvents();
+      this.hubConnection.stop().then(()=>{
+        this.roomCode = null;
+      });  
+
+      res(true);
+    });
+  }
+
   private StartEvents(){
     this.getMessageListener();
     this.playerJoined();
+    this.playerLeft();
+  }
+
+  private EndEvents(){
+    this.hubConnection.off('sendMessage');
+    this.hubConnection.off('playerJoined');
+    this.hubConnection.off('playerLeft');
   }
 
   public getMessageListener(){
-    this.hubConnection.on('sendMessage', (message:any) => {
-      this.matSnackbar.open(message)._dismissAfter(3000);
+      this.hubConnection.on('sendMessage', (message:any) => {
+        this.matSnackbar.open(message)._dismissAfter(5000);
     });     
   }
 
   public playerJoined(){
-    this.hubConnection.on('playerJoined', (username:any)=>{
-      let player: any = {};
-      player.username = username
+    this.hubConnection.on('playerJoined', (player:any)=>{
       player.itsMe = false;
-      player.points = 0;     
-      this.player.next(player);
-    })
+      this.joinedPlayer.next(player);
+    });
+  }
+
+  public playerLeft(){
+    this.hubConnection.on('playerLeft', (playerId: any)=>{
+      //console.log('Player with Id ' + playerId + ' disconnected');
+      this.leftPlayerId.next(playerId);
+    });
   }
 }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 const imageService = "ImageManager/";
 const roomService = "Room/";
+const playerService = "Player/";
 
 const baseUrl = "https://157.230.24.19/";
 //const baseUrl = "https://localhost:5004/";
@@ -60,6 +61,15 @@ export class WtmApiService {
           },
           //error => console.log(error)
       );
+    });
+  }
+
+  public GetPlayers(roomId: number){
+    return new Promise((resolve)=>{
+      this.httpClient.get(baseUrl + playerService + "GetPlayers/" + roomId, httpOptions)
+      .subscribe((res:any)=>{
+        resolve(res);
+      });
     });
   }
 }

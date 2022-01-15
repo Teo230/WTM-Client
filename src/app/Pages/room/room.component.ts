@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { JoinRoomDialogComponent } from 'src/app/Components/join-room-dialog/join-room-dialog.component';
@@ -10,16 +11,17 @@ import { WtmApiService } from 'src/app/services/wtm-api.service';
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss']
 })
-export class RoomComponent implements OnInit {
+export class RoomComponent implements OnInit, OnDestroy {
 
   roomCode: any;
   room: any;
   joinRoomDialog: any;
   username: any;
-  players: any[] = [{username:'test1',points: 20},{username:'test2',points: 10}];
+  players: any[] = [];
+  localPlayer: any;
 
   constructor(private signalRService: SignalRService,
-              private route: ActivatedRoute,
+              private activatedRoute: ActivatedRoute,
               private wtmService: WtmApiService,
               private matDialog: MatDialog) 
               {
@@ -29,10 +31,31 @@ export class RoomComponent implements OnInit {
       this.username = username;
       this.joinRoom();
     })
+  }
 
+  ngOnDestroy(): void {
+    this.signalRService.closeConnection();
   }
 
   ngOnInit(): void {
+    window.addEventListener('beforeunload',(event)=>{
+      this.signalRService.closeConnection().then();
+    });
+
+    window.addEventListener('unload',(event)=>{
+      this.signalRService.closeConnection().then();
+    })
+
+    this.signalRService.joinedPlayer.subscribe((player:any) => {
+      if(player !== null)
+        this.players.push(player)
+    });
+
+    this.signalRService.leftPlayerId.subscribe((playerId:any)=>{
+      if(playerId !== null)
+        this.players = this.players.filter(x => x.id !== playerId);
+    });
+
     setInterval(()=>{
       this.players[this.players.length - 1].points += 30;
       this.players = this.players.sort((a,b) => b.points - a.points);
@@ -40,19 +63,28 @@ export class RoomComponent implements OnInit {
   }
 
   joinRoom(){
-    this.roomCode = this.route.snapshot.paramMap.get('roomCode');
-    this.signalRService.startConnection(this.roomCode, this.username);
+    this.roomCode = this.activatedRoute.snapshot.paramMap.get('roomCode');
 
-    this.wtmService.JoinRoom(this.roomCode, this.username).then((room:any) => {
-      //console.log(room);
-      this.room = room;
-      this.players.push({username: this.username, itsMe: true, points: 0});
+    this.wtmService.JoinRoom(this.roomCode, this.username).then((player:any) => {
+      this.signalRService.startConnection(this.roomCode, this.username, player.id);
 
-      this.signalRService.player.subscribe(player => {
-        if(player !== null)
-          this.players.push(player)
-      });
+      this.room = player.room;
+
+      this.localPlayer = player;
+      this.localPlayer.itsMe = true;
+      this.players.push(this.localPlayer);
+      this.getPlayers();
     });  
+  }
+
+  getPlayers(){
+    this.wtmService.GetPlayers(this.room.id).then((players:any)=>{
+      console.log(this.players);
+      let tempPlayers = players.filter((x: any) => x.id !== this.localPlayer.id);
+      tempPlayers.forEach((player: any) => {
+        this.players.push(player);
+      });
+    });
   }
 
   voteKick(player: any){
