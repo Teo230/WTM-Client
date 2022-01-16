@@ -35,6 +35,17 @@ export class WtmApiService {
     });
   }
 
+  public GetRandomSentences(count: number){
+    return new Promise((resolve) => {
+      this.httpClient.get(baseUrl + roomService + "GetRandomSentences/" + count, httpOptions)
+          .subscribe((res:any) =>{
+            resolve(res);
+          }, 
+          //error => console.log(error)
+      );
+    });
+  }
+
   public GenerateRoom(){
     return new Promise((resolve) => {
       let localOptions = httpOptions;

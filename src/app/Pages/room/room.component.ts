@@ -17,8 +17,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   room: any;
   joinRoomDialog: any;
   username: any;
-  players: any[] = [];
+  sentence: any = "Loading...";
   localPlayer: any;
+  players: any[] = [];
   memes: any[] = [];
   memeSources: any[] = [];
 
@@ -78,7 +79,17 @@ export class RoomComponent implements OnInit, OnDestroy {
 
       this.getPlayers();
       this.getMemes();
+      this.getSentence();
     });  
+  }
+
+  getSentence() {
+    this.wtmService.GetRandomSentences(1).then((sentences:any)=>{
+      //console.log(sentences);
+      this.sentence = sentences[0];
+      if(sentences === null)
+        this.getSentence();
+    });
   }
 
   getPlayers(){
