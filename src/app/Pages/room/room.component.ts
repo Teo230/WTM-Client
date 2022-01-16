@@ -16,7 +16,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   roomCode: any;
   room: any;
   joinRoomDialog: any;
-  username: any = 'teo';
+  username: any;
   players: any[] = [];
   localPlayer: any;
   memes: any[] = [];
@@ -27,13 +27,12 @@ export class RoomComponent implements OnInit, OnDestroy {
               private wtmService: WtmApiService,
               private matDialog: MatDialog) 
               {
-    // this.joinRoomDialog = this.matDialog.open(JoinRoomDialogComponent, {disableClose: true, backdropClass:'joinRoomDialogBackground'});
-    // this.joinRoomDialog.afterClosed()
-    // .subscribe((username: any) =>{
-    //   this.username = username;
-    //   this.joinRoom();
-    // })
-    this.joinRoom();
+    this.joinRoomDialog = this.matDialog.open(JoinRoomDialogComponent, {disableClose: true, backdropClass:'joinRoomDialogBackground'});
+    this.joinRoomDialog.afterClosed()
+    .subscribe((username: any) =>{
+      this.username = username;
+      this.joinRoom();
+    })
   }
 
   ngOnDestroy(): void {
