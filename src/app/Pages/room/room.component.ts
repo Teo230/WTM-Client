@@ -16,21 +16,24 @@ export class RoomComponent implements OnInit, OnDestroy {
   roomCode: any;
   room: any;
   joinRoomDialog: any;
-  username: any;
+  username: any = 'teo';
   players: any[] = [];
   localPlayer: any;
+  memes: any[] = [];
+  memeSources: any[] = [];
 
   constructor(private signalRService: SignalRService,
               private activatedRoute: ActivatedRoute,
               private wtmService: WtmApiService,
               private matDialog: MatDialog) 
               {
-    this.joinRoomDialog = this.matDialog.open(JoinRoomDialogComponent, {disableClose: true, backdropClass:'joinRoomDialogBackground'});
-    this.joinRoomDialog.afterClosed()
-    .subscribe((username: any) =>{
-      this.username = username;
-      this.joinRoom();
-    })
+    // this.joinRoomDialog = this.matDialog.open(JoinRoomDialogComponent, {disableClose: true, backdropClass:'joinRoomDialogBackground'});
+    // this.joinRoomDialog.afterClosed()
+    // .subscribe((username: any) =>{
+    //   this.username = username;
+    //   this.joinRoom();
+    // })
+    this.joinRoom();
   }
 
   ngOnDestroy(): void {
@@ -73,17 +76,26 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.localPlayer = player;
       this.localPlayer.itsMe = true;
       this.players.push(this.localPlayer);
+
       this.getPlayers();
+      this.getMemes();
     });  
   }
 
   getPlayers(){
     this.wtmService.GetPlayers(this.room.id).then((players:any)=>{
-      console.log(this.players);
       let tempPlayers = players.filter((x: any) => x.id !== this.localPlayer.id);
       tempPlayers.forEach((player: any) => {
         this.players.push(player);
       });
+    });
+  }
+
+  getMemes(){
+    this.wtmService.GetRandomMemes(5).then((memes:any)=>{
+      //console.log(memes);
+      this.memes = memes.memes;
+      this.memeSources = this.memes.map((meme: any)=> meme.url);
     });
   }
 

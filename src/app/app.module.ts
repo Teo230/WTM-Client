@@ -46,13 +46,16 @@ import { RoomComponent } from './Pages/room/room.component';
 import { JoinRoomDialogComponent } from './Components/join-room-dialog/join-room-dialog.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { SwiperModule } from "swiper/angular";
+import { CarouselComponent } from './Components/carousel/carousel.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     WelcomeComponent,
     RoomComponent,
-    JoinRoomDialogComponent
+    JoinRoomDialogComponent,
+    CarouselComponent
   ],
   imports: [
     CommonModule,
@@ -60,6 +63,7 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    SwiperModule,
 
     MatCheckboxModule,
     MatCheckboxModule,

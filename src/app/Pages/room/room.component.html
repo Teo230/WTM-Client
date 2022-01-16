@@ -1,4 +1,4 @@
-<div style="display: flex; height: calc(100% - 120px);">
+<div style="display: flex; height: calc(100% - 100px);">
     <div style="width: 15%; margin: 10px; ">
         <mat-card class="player-list">
             <mat-card-title>
@@ -15,10 +15,19 @@
         </mat-card>
     </div>
     <div style="width: 70%; margin-top: 10px;">
-        <mat-card>
+        <mat-card style="height: 10%;">
             <mat-card-title>Room Info</mat-card-title>
             Room: {{room?.roomCode}} <button mat-button [cdkCopyToClipboard]="copyUrl()"><mat-icon class="mr-8">content_copy</mat-icon></button>
         </mat-card>
+
+        <mat-card style="margin-top: 10px; height: 20%;">
+            <mat-card-title>some random words...</mat-card-title>
+        </mat-card>
+
+        <mat-card style="margin-top: 10px; height: calc(70% - 95px);">
+            <!-- <img src="{{meme.url}}" width="200px" /> -->
+            <app-carousel [sourceList]="memeSources"></app-carousel>
+        </mat-card>    
     </div>
     <div style="width: 15%; margin: 10px; ">
         <mat-card class="scoreboard">
@@ -35,7 +44,7 @@
                             <mat-icon *ngIf="i > 2" class="mr-8" style="color:white">horizontal_rule</mat-icon>  
                         </div>
                         
-                        <span style="width: 100px;" class="cut-text"> {{player.username}} - {{player.points}}</span>
+                        <span style="width: 100px;" class="cut-text"> {{player.username}} - {{player?.points}}</span>
                         <!-- <button mat-button color="accent" (click)="voteKick(player)" *ngIf="!(player.itsMe)">Vote Kick</button> -->
                     </mat-list-item>
                 </mat-selection-list> 

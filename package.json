@@ -23,6 +23,7 @@
     "@angular/router": "~12.2.0",
     "@aspnet/signalr": "^1.0.27",
     "rxjs": "~6.6.0",
+    "swiper": "^7.4.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
